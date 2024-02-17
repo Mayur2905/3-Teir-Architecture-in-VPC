@@ -90,20 +90,20 @@ Resources:
       Tags:
         - Key: Name
           Value: PrivateRouteTable
-  # creating a Route for private subnets
+# creating a Route for private subnets
   PrivateRoute:
     Type: 'AWS::EC2::Route'
     Properties:
       RouteTableId: !Ref PrivateRouteTable
       DestinationCidrBlock: 0.0.0.0/0
       GatewayId: !Ref NATGateway
-  # Associating private subnet with route table
+# Associating private subnet with route table
   AssociatePrivateSubnetRouteTable:
     Type: 'AWS::EC2::SubnetRouteTableAssociation'
     Properties:
       SubnetId: !Ref PrivateSubnet
       RouteTableId: !Ref PrivateRouteTable
-  # creating a Security Group in VPC
+# creating a Security Group in VPC
   MySecurity:
     Type: 'AWS::EC2::SecurityGroup'
     Properties:

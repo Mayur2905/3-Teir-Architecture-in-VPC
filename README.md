@@ -2,6 +2,9 @@
 
 This CloudFormation template creates a Virtual Private Cloud (VPC) with public and private subnets, along with EC2 instances in each subnet. The public subnet has an EC2 instance running Nginx, while the private subnet has an EC2 instance running Apache Tomcat.
 
+## Templete Architecture
+<img src="/Images/VPC_Archi.png">
+
 ## Template Overview
 
 - **VPC**: Creates a VPC with a specified CIDR block, enabling DNS support and hostnames.
