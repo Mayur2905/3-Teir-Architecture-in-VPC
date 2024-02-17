@@ -58,14 +58,14 @@ Resources:
       RouteTableId: !Ref PublicRouteTable
       DestinationCidrBlock: 0.0.0.0/0
       GatewayId: !Ref InternetGateway
-# creating Subnet Route Table Association
+# Creating Subnet Route Table Association
   AssociatePublicSubnetRouteTable:
     Type: 'AWS::EC2::SubnetRouteTableAssociation'
     Properties:
       SubnetId: !Ref PublicSubnet
       RouteTableId: !Ref PublicRouteTable
 
-# creating a NAT Gateway
+# Creating a NAT Gateway
   NATGateway:
     Type: 'AWS::EC2::NatGateway'
     DependsOn: AttachGateway
@@ -82,7 +82,7 @@ Resources:
       Tags:
         - Key: Name
           Value: ElasticIPFORNATGateway
-# creating a Route Table for private subnets
+# Creating a Route Table for private subnets
   PrivateRouteTable:
     Type: 'AWS::EC2::RouteTable'
     Properties:
@@ -90,13 +90,14 @@ Resources:
       Tags:
         - Key: Name
           Value: PrivateRouteTable
-# creating a Route for private subnets
+# Creating a Route for private subnets
   PrivateRoute:
     Type: 'AWS::EC2::Route'
     Properties:
       RouteTableId: !Ref PrivateRouteTable
       DestinationCidrBlock: 0.0.0.0/0
-      GatewayId: !Ref NATGateway
+      NatGatewayId: !Ref NATGateway  # Use NatGatewayId for private route
+
 # Associating private subnet with route table
   AssociatePrivateSubnetRouteTable:
     Type: 'AWS::EC2::SubnetRouteTableAssociation'
@@ -153,8 +154,7 @@ Resources:
         - !Ref MySecurity
       KeyName : 'Ohio'
       UserData:
-        Fn::Base64: !Sub |
-          # Your base64-encoded script goes here
+        Fn::Base64:  |
           #!/bin/bash -xe
           sudo -i
           cd apache-tomcat-8.5.97/bin/
